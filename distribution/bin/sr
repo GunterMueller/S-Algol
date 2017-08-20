@@ -1,0 +1,7 @@
+ARCH=`arch`
+SDIR=/users/cs/dave/S/fastS/sun/release/distribution/lib
+export SDIR
+SREALIO=$SDIR/runtime/$ARCH\_realio.out
+SRASTERFUNCS=$SDIR/runtime/$ARCH\_Sraster.out
+export SREALIO SRASTERFUNCS
+$SDIR/exec/$ARCH\_sr $*

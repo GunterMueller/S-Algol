@@ -1,0 +1,36 @@
+#CFLAGS= -O -DSUN -DM68000 -DRASTER -DRASTOP -f68881
+CFLAGS= -g -DSUN -DM68000 -DRASTER -DRASTOP -f68881 -DX11
+LFLAGS= -a -u  -DSUN -DM68000 -DRASTER -DRASTOP -f68881
+MAIN = main.o
+SFUNCS = sfuncs.o
+OTHERS = debug.o heap.o signal.o init.o io.o misc.o global.o
+M6 = mem68020.o
+LFILES = main.c sfuncs.c debug.c heap.c signal.c init.c io.c misc.c global.c
+GRAPHICS: SUNgraphics.o suntty.o sunfpe.o Fgraphics.o
+
+RASTER: sun3 $(OTHERS) $(SFUNCS) $(MAIN) $(GRAPHICS)
+	 cc -O1 -o rcint $(OTHERS) $(SFUNCS) $(MAIN) $(GRAPHICS) -lc -lm -lsunwindow -lpixrect -f68881
+
+M68000: $(OTHERS) $(SFUNCS) $(MAIN) $(M6)
+	 cc -g -o cint $(OTHERS) $(SFUNCS) $(MAIN) $(M6) -lc -lm
+
+main.o: main.c sun3intarith.il
+	cc -c $(CFLAGS) main.c sun3intarith.il
+
+LINT:	
+	lint $(LFLAGS) $(LFILES)
+
+$(OTHERS): int.h 
+$(MAIN): int.h ops.h 
+$(SFUNCS): int.h stand.h 
+SUNgraphics.o:	int.h graphics.h
+sunfpe.o suntty.o: int.h
+
+install:	RASTER
+	cp rcint ../../distribution/lib/exec/sun3_sr
+sun3:
+	make clean
+	echo > sun3
+
+clean:	
+	rm -f rcint *.o sun3 sun4

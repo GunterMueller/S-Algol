@@ -1,0 +1,7 @@
+ARCH=`arch`
+SDIR=/users/cs/dave/S/fastS/sun/release/distribution/lib
+export SDIR
+SPRELUDE=$SDIR/S.prelude
+SSTAND=$SDIR/S.stand
+export SSTAND SPRELUDE
+$SDIR/exec/$ARCH\_sc $*

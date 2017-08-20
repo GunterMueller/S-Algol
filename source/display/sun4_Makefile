@@ -1,0 +1,11 @@
+CC=gcc
+CFLAGS= -I/usr/local/include/X11 -I/usr/openwin/include -Wmissing-prototypes
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c -O2 -g -o $@ $<
+
+%.p.o: %.c
+	$(CC) $(CFLAGS) -c -p -o $@ $<
+
+%.g.o: %.c
+	$(CC) $(CFLAGS) -c -g -o $@ $<

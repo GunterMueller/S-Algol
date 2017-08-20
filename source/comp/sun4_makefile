@@ -1,0 +1,37 @@
+#CFLAGS = -O1 -DM68000 -DOUTLINE -DRASTER
+CFLAGS = -g -DM68000 -DOUTLINE -DRASTER
+LFLAGS = -DM68000 -DOUTLINE -DRASTER
+OFILES = csc.o io.o cgen.o stype.o syntax1.o syntax2.o
+LFILES = csc.c io.c cgen.c stype.c syntax1.c syntax2.c
+
+CC= gcc
+#CFLAGS= -ansi -Wmissing-prototypes -fno-cse-follow-jumps -
+ASFLAGS= -P
+ 
+%.o: %.s
+	$(AS) $(ASFLAGS) $(CODETYPE) -DGREGS -o $@ $<
+ 
+%.o: %.c
+#	$(CC) $(CFLAGS) -O2 -g -c -ansi -Wmissing-prototypes -o $@ $<
+	$(CC) $(CFLAGS) -O2 -c -o $@ $<
+
+csc:	sun4 $(OFILES)
+	gcc ${CFLAGS} -o sc $(OFILES)
+#	gcc ${CFLAGS} -g -o sc $(OFILES)
+
+LINT:
+	lint ${LFLAGS} $(LFILES)
+
+io.o:	defines.h functions.h
+cgen.o stype.o:	defines.h stype.h functions.h
+syntax1.o syntax2.o: defines.h stype.h symbols.h cgen.h lex.h functions.h
+csc.o:	defines.h externs.h stype.h mktype.h functions.h
+
+install: csc
+	mv sc ../../distribution/lib/exec/sun4_sc
+
+sun4:
+	make clean
+	echo > sun4
+clean:
+	rm -f sc *.o sun3 sun4 alpha

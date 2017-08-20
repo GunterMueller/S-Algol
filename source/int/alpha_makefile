@@ -1,0 +1,42 @@
+CC=cc
+#CFLAGS= -O1 -misalign -DSUN DM68000 -DRASTER -DRASTOP
+CFLAGS= -g -DADDR64 -DALPHA -DRASTOP -DLITTLEENDIAN -DRASTER -DX11 -I../display
+#CFLAGS= -DADDR64 -DALPHA -DRASTOP -DLITTLEENDIAN -DRASTER -DX11 -I../display
+LFLAGS= -a -u  -DSUN -DM68000 -DRASTER -DRASTOP
+#LFLAGS= -a -u  -DSUN -DM68000 -DRASTER -DRASTOP -DX11
+MAIN = main.o
+SFUNCS = sfuncs.o
+OTHERS = debug.o heap.o signal.o init.o io.o misc.o global.o
+LFILES = main.c sfuncs.c debug.c heap.c signal.c init.c io.c misc.c global.c
+#GRAPHICS =  SUNgraphics.o suntty.o sunfpe.o Fgraphics.o
+GRAPHICS =  sungraph.o 
+
+ALPHA:	alpha $(OTHERS) $(SFUNCS) $(MAIN) $(GRAPHICS)
+	${CC} -O1 -o rcint $(OTHERS) $(SFUNCS) $(MAIN) $(GRAPHICS) -lc -lm  ../display/$(ARCH)_libdisplay_g.a -lX11
+
+RASTER: alpha $(OTHERS) $(SFUNCS) $(MAIN) $(GRAPHICS)
+	 ${CC} -O1 -misalign -o rcint $(OTHERS) $(SFUNCS) $(MAIN) $(GRAPHICS) -lc -lm -lsunwindow -lpixrect -L../display.alpha -ldisplay
+
+LINT:	
+	lint $(LFLAGS) $(LFILES)
+
+#main.o: main.c 
+#	cc -sun4 -c $(CFLAGS) main.c sun4intarith.il
+
+$(OTHERS): int.h 
+$(MAIN): int.h ops.h 
+$(SFUNCS): int.h stand.h 
+SUNgraphics.o:	int.h graphics.h
+sungraph.o:	int.h graphics.h
+sunfpe.o suntty.o: int.h
+
+install: RASTER
+	cp rcint ../../distribution/lib/exec/alpha_sr
+	cp ../display/s_display ../../distribution/lib/exec/alpha_display
+
+alpha:
+	make clean
+	echo > alpha
+
+clean:	
+	rm -f rcint *.o sun3 sun4 alpha

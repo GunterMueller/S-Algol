@@ -1,0 +1,35 @@
+#CFLAGS= -O1 -misalign -DSUN -DM68000 -DRASTER -DRASTOP
+CFLAGS= -g -misalign -DADDR32 -DSUN -DM68000 -DRASTER -DRASTOP -DX11 -DBIGENDIAN
+LFLAGS= -a -u  -DSUN -DM68000 -DRASTER -DRASTOP
+#LFLAGS= -a -u  -DSUN -DM68000 -DRASTER -DRASTOP -DX11
+MAIN = main.o
+SFUNCS = sfuncs.o
+OTHERS = debug.o heap.o signal.o init.o io.o misc.o global.o
+LFILES = main.c sfuncs.c debug.c heap.c signal.c init.c io.c misc.c global.c
+GRAPHICS =  SUNgraphics.o suntty.o sunfpe.o Fgraphics.o
+
+RASTER: sun4 $(OTHERS) $(SFUNCS) $(MAIN) $(GRAPHICS)
+	 cc -O1 -misalign -o rcint $(OTHERS) $(SFUNCS) $(MAIN) $(GRAPHICS) -lc -lm -lsunwindow -lpixrect -L../display -ldisplay
+
+LINT:	
+	lint $(LFLAGS) $(LFILES)
+
+main.o: main.c sun4intarith.il
+	cc -sun4 -c $(CFLAGS) main.c sun4intarith.il
+
+$(OTHERS): int.h 
+$(MAIN): int.h ops.h 
+$(SFUNCS): int.h stand.h 
+SUNgraphics.o:	int.h graphics.h
+sunfpe.o suntty.o: int.h
+
+install: RASTER
+	cp rcint ../../distribution/lib/exec/sun4_sr
+	cp ../display/s_display ../../distribution/lib/exec/sun4_display
+
+sun4:
+	make clean
+	echo > sun4
+
+clean:	
+	rm -f rcint *.o sun3 sun4

@@ -1,0 +1,21 @@
+structure mouse( cint X.pos,Y.pos ; cbool selected ; c*cbool the.buttons )
+structure point.strc( cint point.x,point.y )
+structure file.type( file The.file ; cstring Dev.type )
+structure Image.type( #pixel The.image )
+structure culr.strc( cpntr nxtre ; cpixel shade )
+structure oprtn.strc( cpntr lft,rght ; cint opoo )
+structure scrbl.strc( cstring msge ; creal xxl,yyl,xxr,yyr  )
+structure poin.strc( creal pnx,pny )
+structure trnsfrm.strc( cint trnsfrm ; cpntr mrtre ; creal trnsfrm.x,trnsfrm.y )
+structure menu( c#pixel menu.image ;
+		*int menu.dimensions.vector ;
+		cbool vertical )
+structure font( cstring the.fontname ;
+                cint font.height,descender ;
+                c*#cpixel the.chars ;
+                pntr next.font )
+structure the.font.info( int font.lno,font.offset,font.width )
+
+let Outline.error = "'n***** Outline Run-Time Error *****'n'n"
+let charry = @1 of *c*cint[ frst,scnd ]
+let fonts.pntr := nil

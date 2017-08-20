@@ -1,0 +1,5 @@
+#define	BITMAPSFORMAT		1
+#define	BITMAPFORMAT		2
+#define	PIXELSFORMAT		3
+
+
