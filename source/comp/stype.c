@@ -45,7 +45,7 @@ pntr	t ;
 	register pntr	p ;
 	p = ( pntr ) malloc( stype_size ) ;
 	p->skind = VECTOR_CLASS ;
-	( pntr ) p->class.VECTOR.elms = t ;
+	( pntr *) p->class.VECTOR.elms = t ;
 	return( p ) ;
 }
 

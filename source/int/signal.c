@@ -215,7 +215,7 @@ set_signals()
 	( void ) signal( SIGILL,sigill );
 	( void ) signal( SIGTRAP,sigtrap ) ;
 	( void ) signal( SIGIOT,sigiot ) ;
-	( void ) signal( SIGEMT,sigemt ) ;
+/* GM */	/* ( void ) signal( SIGEMT,sigemt ) ; */
 #ifdef	SUN
 	enablefpe() ;
 	( void ) signal( SIGFPE,sigFpe ) ;

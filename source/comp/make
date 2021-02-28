@@ -1,1 +1,3 @@
-/usr/local/gnu/bin/make -f `arch`\_makefile $*
+##/usr/local/gnu/bin/make -f `arch`\_makefile $*
+export ARCH=i86pc
+make -f ${ARCH}_makefile $*

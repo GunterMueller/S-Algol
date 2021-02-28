@@ -1,4 +1,6 @@
-CC=gcc
+#
+## CC=gcc -m32
+CC=/usr/bin/gcc -m32
 CFLAGS= -I/usr/openwin/include -DLSBFIRST
 
 %.o: %.c
