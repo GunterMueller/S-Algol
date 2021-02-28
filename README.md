@@ -48,4 +48,10 @@ for sc: SPRELUDE is set to the location of the prelude file S.prelude
 for sr: SREALIO is set to the location of the target architecture realio code
 	SRASTERFUNCS  is set to the location of the target architecture raster code
 
-
+=============================
+Step to build:
+a) Set ARCH
+   export ARCH=i86pc
+b) build libraries in "display" first
+c) then build Interpeter in "int"
+d) then build the Compiler in "comp"
