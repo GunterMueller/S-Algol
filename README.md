@@ -50,8 +50,9 @@ for sr: SREALIO is set to the location of the target architecture realio code
 
 =============================
 Step to build:
-a) Set ARCH
+a) install csh
+b) Set ARCH
    export ARCH=i86pc
-b) build libraries in "display" first
-c) then build Interpeter in "int"
-d) then build the Compiler in "comp"
+c) build libraries in "display" first
+d) then build Interpeter in "int"
+e) then build the Compiler in "comp"

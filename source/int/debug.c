@@ -6,7 +6,8 @@ int deb_step =	 SFALSE ;
 int deb_auto =	 SFALSE ;
 int deb_go =	 SFALSE ;
 int count =	 0 ;
-unsigned char *cp ;
+unsigned char *dbgcp ; 
+
 char *dbg_name = "DBG> " ;
 
 debug( pc )
@@ -17,26 +18,26 @@ unsigned char *pc ;
 	inst = ( int )( *pc ) ;
 	disp_inst( inst )
 */
-	cp = pc ;
-	if ( deb_auto ) disp_inst( ( int )( *cp ) ) ;
+	dbgcp = pc ;
+	if ( deb_auto ) disp_inst( ( int )( *dbgcp ) ) ;
 	if ( deb_line ) { 
 		if ( line_no == count ) { 
 			deb_line = SFALSE ; 
-			command( cp ) ; 
+			command( dbgcp ) ; 
 		} 
 	}
 	else
 		if ( deb_step ) { 
 			if ( count == 1 ) { 
 				deb_step = SFALSE ; 
-				command( cp ) ; 
+				command( dbgcp ) ; 
 			} 
 			else count-- ; 
 		}
 		else
 			if ( deb_go ) {
 			}
-			else command( cp ) ;
+			else command( dbgcp ) ;
 }
 
 command( pc )
@@ -137,9 +138,9 @@ int inst ;
 	start = ( short int * ) storeBase ;
 */
 #ifdef PERQ
-	( void ) printf( "pc = %04x  inst = %04x\n",( int ) cp / 2,inst ) ;
+	( void ) printf( "pc = %04x  inst = %04x\n",( int ) dbgcp / 2,inst ) ;
 #else
-	( void ) printf( "pc = %04x  inst = %04x\n",cp,inst ) ;
+	( void ) printf( "pc = %04x  inst = %04x\n",dbgcp,inst ) ;
 #endif
 }
 
@@ -148,8 +149,8 @@ int inst;
 {
 	( void ) printf( "\n  loc       instr\n  ---       -----\n" ) ;
 #ifdef PERQ
-	( void ) printf( "%4x         %2x\n",( int ) cp / 2 - ( int ) storeBase,inst ) ;
+	( void ) printf( "%4x         %2x\n",( int ) dbgcp / 2 - ( int ) storeBase,inst ) ;
 #else
-	( void ) printf( "%4x         %2x\n",( int ) cp - ( int ) storeBase,inst ) ;
+	( void ) printf( "%4x         %2x\n",( int ) dbgcp - ( int ) storeBase,inst ) ;
 #endif
 }
